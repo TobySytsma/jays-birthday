@@ -331,6 +331,25 @@ body {
   transform: scale(0.98);
 }
 
+/* ===== ACTIVITY LIST ===== */
+.activity-list {
+  list-style: none;
+  text-align: left;
+  margin: 0 auto 18px;
+  max-width: 280px;
+}
+.activity-list li {
+  font-size: 0.95rem;
+  color: #555;
+  padding: 6px 0;
+  border-bottom: 1px dashed #eee;
+}
+.activity-list li::before {
+  content: '\2713\00a0';
+  color: #FF6B00;
+  font-weight: 700;
+}
+
 /* ===== JUKEBOX ===== */
 .jukebox {
   background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
@@ -410,6 +429,9 @@ body {
     padding: 20px;
     page-break-after: always;
   }
+  .printable.active-print:last-of-type {
+    page-break-after: avoid;
+  }
   .printable.active-print svg {
     width: 100%;
     height: auto;
@@ -477,36 +499,17 @@ body {
 
   <div class="section-title">Print & Play Activities</div>
 
-  <!-- Activity 1: Excavator Coloring -->
   <div class="activity-card">
     <div class="activity-icon">&#x1F3A8;</div>
-    <h3>Excavator Coloring Page</h3>
-    <p>Color in the mighty excavator!</p>
-    <button class="print-btn" onclick="printActivity('print-excavator')">Print This!</button>
-  </div>
-
-  <!-- Activity 2: Bulldozer Coloring -->
-  <div class="activity-card">
-    <div class="activity-icon">&#x1F3A8;</div>
-    <h3>Bulldozer Coloring Page</h3>
-    <p>Color in the big bulldozer!</p>
-    <button class="print-btn" onclick="printActivity('print-bulldozer')">Print This!</button>
-  </div>
-
-  <!-- Activity 3: Maze -->
-  <div class="activity-card">
-    <div class="activity-icon">&#x1F6A7;</div>
-    <h3>Construction Maze</h3>
-    <p>Help the dump truck find its way to the building site!</p>
-    <button class="print-btn" onclick="printActivity('print-maze')">Print This!</button>
-  </div>
-
-  <!-- Activity 4: Dot to Dot -->
-  <div class="activity-card">
-    <div class="activity-icon">&#x270F;&#xFE0F;</div>
-    <h3>Dot-to-Dot Dump Truck</h3>
-    <p>Connect the dots (1-20) to reveal a dump truck!</p>
-    <button class="print-btn" onclick="printActivity('print-dots')">Print This!</button>
+    <h3>Activity Pack</h3>
+    <p>4 pages of construction fun: coloring pages, a maze, and a dot-to-dot!</p>
+    <ul class="activity-list">
+      <li>Excavator Coloring Page</li>
+      <li>Bulldozer Coloring Page</li>
+      <li>Construction Maze</li>
+      <li>Dot-to-Dot Dump Truck</li>
+    </ul>
+    <button class="print-btn" onclick="printAll()">Print All Activities!</button>
   </div>
 
   <!-- ===== JUKEBOX ===== -->
@@ -842,18 +845,18 @@ body {
 </div>
 
 <script>
-function printActivity(id) {
-  // Remove active-print from all printables
+function printAll() {
+  // Activate all printable pages
   document.querySelectorAll('.printable').forEach(function(el) {
-    el.classList.remove('active-print');
+    el.classList.add('active-print');
   });
-  // Activate the selected one
-  document.getElementById(id).classList.add('active-print');
   // Trigger print
   window.print();
   // Clean up after print dialog closes
   setTimeout(function() {
-    document.getElementById(id).classList.remove('active-print');
+    document.querySelectorAll('.printable').forEach(function(el) {
+      el.classList.remove('active-print');
+    });
   }, 500);
 }
 </script>
